@@ -26,7 +26,7 @@
 #include <netdev.h>
 #include <asm/arch/cpu.h>
 #include <asm/arch/gpio.h>
-#include <asm/arch/mmc.h>
+#include <asm/arch/dwmmc.h>
 #include <asm/arch/pinmux.h>
 #include <asm/arch/sromc.h>
 
@@ -120,7 +120,7 @@ int board_eth_init(bd_t *bis)
 #ifdef CONFIG_DISPLAY_BOARDINFO
 int checkboard(void)
 {
-	printf("\nBoard: SMDK5250\n");
+	printf("\nBoard: %s\n",CONFIG_IDENT_STRING);
 
 	return 0;
 }
@@ -130,14 +130,14 @@ int checkboard(void)
 int board_mmc_init(bd_t *bis)
 {
 	int err;
-
-	err = exynos_pinmux_config(PERIPH_ID_SDMMC0, PINMUX_FLAG_8BIT_MODE);
+	
+	err = exynos_pinmux_config(PERIPH_ID_SDMMC2, PINMUX_FLAG_NONE);
 	if (err) {
-		debug("SDMMC0 not configured\n");
+		debug("SDMMC2 not configured\n");
 		return err;
 	}
-
-	err = s5p_mmc_init(0, 8);
+	
+	err = exynos_dwmmc_init(2, 4);
 	return err;
 }
 #endif
