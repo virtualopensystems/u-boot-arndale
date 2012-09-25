@@ -49,8 +49,8 @@ static struct spl_machine_param machine_param
 	.uboot_size	= 0x100000,
 
 	.boot_source	= BOOT_MODE_OM,
-	.frequency_mhz	= 800,
-	.arm_freq_mhz	= 1700,
+	.frequency_mhz	= CONFIG_BUS_CLK_FREQ,
+	.arm_freq_mhz	= CONFIG_ARM_CLK_FREQ,
 	.serial_base	= 0x12c30000,
 	.i2c_base	= 0x12c60000,
 	.mem_manuf	= MEM_MANUF_SAMSUNG,
