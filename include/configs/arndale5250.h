@@ -100,6 +100,7 @@
 #define CONFIG_CMD_EXT2
 #define CONFIG_CMD_FAT
 #define CONFIG_CMD_NET
+#define CONFIG_SUPPORT_RAW_INITRD
 
 #define CONFIG_BOOTDELAY		3
 #define CONFIG_ZERO_BOOTDELAY_CHECK
@@ -120,7 +121,6 @@
 #define CONFIG_SPL_MAX_SIZE	(14 * 1024)
 
 #define CONFIG_BOOTCOMMAND	"mmc read 40007000 451 2000; bootm 40007000"
-
 /* Miscellaneous configurable options */
 #define CONFIG_SYS_LONGHELP		/* undef to save memory */
 #define CONFIG_SYS_HUSH_PARSER		/* use "hush" command parser	*/

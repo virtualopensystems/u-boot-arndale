@@ -461,6 +461,7 @@ static unsigned long exynos5_get_mmc_clk(int dev_index)
 	unsigned int sel;
 	unsigned int ratio;
 	unsigned int pre_ratio;
+	unsigned int addr;
 
 	sel = readl(&clk->src_fsys);
 	sel = (sel >> (dev_index << 2)) & 0xf;
@@ -474,9 +475,22 @@ static unsigned long exynos5_get_mmc_clk(int dev_index)
 	else
 		return 0;
 
-	ratio = readl(&clk->div_fsys1);
+	/*
+	 * CLK_DIV_FSYS1
+	 * MMC0_PRE_RATIO [15:8], MMC1_PRE_RATIO [31:24]
+	 * CLK_DIV_FSYS2
+	 * MMC2_PRE_RATIO [15:8], MMC3_PRE_RATIO [31:24]
+	 */
+	if (dev_index < 2) {
+		addr = (unsigned int)&clk->div_fsys1;
+	} else {
+		addr = (unsigned int)&clk->div_fsys2;
+		dev_index -= 2;
+	}
+
+	ratio = readl(addr);
 	ratio = (ratio >> (dev_index << 2)) & 0xf;
-	pre_ratio = readl(&clk->div_fsys1);
+	pre_ratio = readl(addr);
 	pre_ratio = (pre_ratio >> ((dev_index<< 4) + 8)) & 0xff;
 
 	uclk = (sclk /(ratio + 1))/(pre_ratio + 1);
@@ -880,4 +894,18 @@ void set_mipi_clk(void)
 {
 	if (cpu_is_exynos4())
 		exynos4_set_mipi_clk();
+}
+
+/*
+ * Dump some core clockes.
+ */
+int do_showclocks(void)
+{
+	printf("\n");
+	printf("USDHC1     %8d kHz\n", get_mmc_clk(0));
+	printf("USDHC2     %8d kHz\n", get_mmc_clk(1));
+	printf("USDHC3     %8d kHz\n", get_mmc_clk(2));
+	printf("USDHC4     %8d kHz\n", get_mmc_clk(3));
+
+	return 0;
 }
