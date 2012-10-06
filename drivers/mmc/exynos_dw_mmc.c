@@ -30,7 +30,7 @@ static void exynos_dwmci_clksel(struct dwmci_host *host)
 {
 	u32 val;
 	val = DWMCI_SET_SAMPLE_CLK(DWMCI_SHIFT_0) |
-		DWMCI_SET_DRV_CLK(DWMCI_SHIFT_0) | DWMCI_SET_DIV_RATIO(0);
+		DWMCI_SET_DRV_CLK(DWMCI_SHIFT_0) | DWMCI_SET_DIV_RATIO(3);
 
 	dwmci_writel(host, DWMCI_CLKSEL, val);
 }
@@ -44,6 +44,12 @@ int exynos_dwmci_init(u32 regbase, int bus_width, int index)
 		return 1;
 	}
 
+	/* MPLL = 800MHz
+	 * FSYS DIVS = 0, 2
+	 * CLK_SEL  = 4  800/2/4 = 100MHz
+	 * Set the sclk_mmc such that it generates 100Mhz output
+	 */
+	set_mmc_clk(index, 1);
 	host->name = EXYNOS_NAME;
 	host->ioaddr = (void *)regbase;
 	host->buswidth = bus_width;
