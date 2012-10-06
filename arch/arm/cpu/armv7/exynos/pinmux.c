@@ -102,12 +102,12 @@ static int exynos5_mmc_config(int peripheral, int flags)
 			s5p_gpio_set_drv(bank_ext, i, GPIO_DRV_4X);
 		}
 	}
-	for (i = 0; i < 2; i++) {
+	for (i = 0; i < 2 ; i++) {
 		s5p_gpio_cfg_pin(bank, i, GPIO_FUNC(0x2));
 		s5p_gpio_set_pull(bank, i, GPIO_PULL_NONE);
 		s5p_gpio_set_drv(bank, i, GPIO_DRV_4X);
 	}
-	for (i = 3; i <= 6; i++) {
+	for (i = 2; i <= 6; i++) {
 		s5p_gpio_cfg_pin(bank, i, GPIO_FUNC(0x2));
 		s5p_gpio_set_pull(bank, i, GPIO_PULL_UP);
 		s5p_gpio_set_drv(bank, i, GPIO_DRV_4X);
