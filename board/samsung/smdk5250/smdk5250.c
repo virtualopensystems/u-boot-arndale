@@ -138,6 +138,15 @@ int board_mmc_init(bd_t *bis)
 	}
 	
 	err = exynos_dwmmc_init(2, 4);
+
+        err = exynos_pinmux_config(PERIPH_ID_SDMMC0, PINMUX_FLAG_8BIT_MODE);
+        if (err) {
+                debug("SDMMC0 not configured\n");
+                return err;
+        }
+       
+        err = exynos_dwmmc_init(0, 8);
+
 	return err;
 }
 #endif
