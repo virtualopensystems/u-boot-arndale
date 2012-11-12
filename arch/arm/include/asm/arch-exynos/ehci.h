@@ -37,6 +37,25 @@
 
 #define HOST_CTRL0_FSEL_MASK			(7 << 16)
 
+#define HSIC_CTRL_REFCLKSEL                     (0x2)
+#define HSIC_CTRL_REFCLKSEL_MASK                (0x3)
+#define HSIC_CTRL_REFCLKSEL_SHIFT               (23)
+
+#define HSIC_CTRL_REFCLKDIV_12                  (0x24)
+#define HSIC_CTRL_REFCLKDIV_15                  (0x1C)
+#define HSIC_CTRL_REFCLKDIV_16                  (0x1A)
+#define HSIC_CTRL_REFCLKDIV_19_2                (0x15)
+#define HSIC_CTRL_REFCLKDIV_20                  (0x14)
+#define HSIC_CTRL_REFCLKDIV_MASK                (0x7f)
+#define HSIC_CTRL_REFCLKDIV_SHIFT               (16)
+
+#define HSIC_CTRL_SIDDQ                         (0x1 << 6)
+#define HSIC_CTRL_FORCESLEEP                    (0x1 << 5)
+#define HSIC_CTRL_FORCESUSPEND                  (0x1 << 4)
+#define HSIC_CTRL_WORDINTERFACE                 (0x1 << 3)
+#define HSIC_CTRL_UTMISWRST                     (0x1 << 2)
+#define HSIC_CTRL_PHYSWRST                      (0x1 << 0)
+
 #define EHCICTRL_ENAINCRXALIGN			(1 << 29)
 #define EHCICTRL_ENAINCR4			(1 << 28)
 #define EHCICTRL_ENAINCR8			(1 << 27)

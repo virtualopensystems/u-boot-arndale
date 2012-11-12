@@ -110,6 +110,7 @@
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_EXYNOS
 #define CONFIG_USB_STORAGE
+#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	3
 
 /* MMC SPL */
 #define CONFIG_SPL
@@ -209,10 +210,8 @@
 
 /* Ethernet Controllor Driver */
 #ifdef CONFIG_CMD_NET
-#define CONFIG_SMC911X
-#define CONFIG_SMC911X_BASE		0x5000000
-#define CONFIG_SMC911X_16_BIT
-#define CONFIG_ENV_SROM_BANK		1
+#define CONFIG_USB_HOST_ETHER
+#define CONFIG_USB_ETHER_ASIX
 #endif /*CONFIG_CMD_NET*/
 
 /* Enable devicetree support */
