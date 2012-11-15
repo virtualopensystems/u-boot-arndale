@@ -214,6 +214,10 @@
 #define CONFIG_USB_ETHER_ASIX
 #endif /*CONFIG_CMD_NET*/
 
+#define CONFIG_CMD_DHCP
+#define CONFIG_CMD_PXE
+#define CONFIG_MENU
+
 /* Enable devicetree support */
 #define CONFIG_OF_LIBFDT
 
