@@ -55,6 +55,11 @@ lowlevel_init:
 	cmp	r1, r2
 	beq	wakeup_reset
 
+	/*PS-Hold High*/
+	ldr r0, =0x1004330c
+	ldr r1, [r0]
+	orr r1, r1, #0x100
+	str r1, [r0] 
 	/*
 	 * If U-boot is already running in RAM, no need to relocate U-Boot.
 	 * Memory controller must be configured before relocating U-Boot
