@@ -112,6 +112,9 @@
 #define CONFIG_USB_STORAGE
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	3
 
+/* SYSFLAGS register */
+#define CONFIG_SYSFLAGS_ADDR	0x02020000
+
 /* MMC SPL */
 #define CONFIG_SPL
 #define COPY_BL2_FNPTR_ADDR	0x02020030
@@ -120,6 +123,9 @@
 #define CONFIG_SPL_LDSCRIPT	"board/samsung/smdk5250/smdk5250-uboot-spl.lds"
 #define CONFIG_SPL_TEXT_BASE	0x02023400
 #define CONFIG_SPL_MAX_SIZE	(14 * 1024)
+
+/* secondary SMP pens */
+#define CONFIG_SPL_SMP_PEN	(CONFIG_SPL_TEXT_BASE + CONFIG_SPL_MAX_SIZE - 8)
 
 #define CONFIG_BOOTCOMMAND	"mmc read 40007000 451 2000; bootm 40007000"
 /* Miscellaneous configurable options */

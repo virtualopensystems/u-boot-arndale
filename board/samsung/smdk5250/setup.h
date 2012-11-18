@@ -591,4 +591,6 @@ void sdelay(unsigned long);
 void mem_ctrl_init(void);
 void system_clock_init(void);
 void tzpc_init(void);
+void enter_ns(void);
+void enter_hyp(void);
 #endif

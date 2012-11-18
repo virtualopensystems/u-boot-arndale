@@ -32,6 +32,29 @@ _TEXT_BASE:
 	.globl lowlevel_init
 lowlevel_init:
 
+#ifdef CONFIG_SPL_BUILD
+	/* check if we're the first cpu or not */
+	mrc	p15, 0, r0, c0, c0, 5	/* MPIDR */
+	and	r0, r0, #15
+	cmp	r0, #0
+	beq	first_cpu
+
+	/* Secondary CPU */
+	bl	arch_timer_init
+	bl	non_secure_init
+	bl	monitor_init
+	bl	enter_ns
+	bl	enter_hyp
+	b	enter_smp_pen
+
+	/*
+	 * We entered the SMP pen above, and we expect kernels to write an
+	 * address into the ALIVE SFR SYSFLAGS register thingy at 0x02020000
+	 * which should not be here, but some kernel secondary entry point.
+	 */
+#endif
+
+first_cpu:
 	/* use iRAM stack in bl2 */
 	ldr	sp, =CONFIG_IRAM_STACK
 	stmdb	r13!, {ip,lr}
@@ -54,6 +77,12 @@ lowlevel_init:
 	ldr	r2, =S5P_CHECK_SLEEP
 	cmp	r1, r2
 	beq	wakeup_reset
+
+	/* Init architected timers */
+	bl	arch_timer_init
+
+	/* Non-secure-init */
+	bl	non_secure_init
 
 	/*PS-Hold High*/
 	ldr r0, =0x1004330c
@@ -81,6 +110,11 @@ lowlevel_init:
 
 1:
 	bl	tzpc_init
+#ifdef CONFIG_SPL_BUILD
+	bl	smp_kick_secondary	/* Bring other CPU1 into smp pen */
+#else
+	bl	monitor_init		/* Setup monitor mode */
+#endif
 	ldmia	r13!, {ip,pc}
 
 wakeup_reset:

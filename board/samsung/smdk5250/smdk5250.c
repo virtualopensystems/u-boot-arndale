@@ -30,6 +30,8 @@
 #include <asm/arch/pinmux.h>
 #include <asm/arch/sromc.h>
 
+#include "setup.h"
+
 DECLARE_GLOBAL_DATA_PTR;
 
 #ifdef CONFIG_SMC911X
@@ -215,3 +217,24 @@ int board_early_init_f(void)
 	return err;
 }
 #endif
+
+void arch_preboot_os(void)
+{
+	/*
+	 * We should now long be done with accessing any peripherals or
+	 * setting up any other hardware state that needs to be set up from
+	 * the secure mode (TrustZone), so we can switch to non-secure mode
+	 * and we rely on board-specific logic to put a board-specific monitor
+	 * in place for stuff like L2 cache maintenance and power management.
+	 */
+	enter_ns();
+
+	/*
+	 * Enter Hyp mode immediately before booting the kernel to allow
+	 * the first Linux kernel access to and control of Hyp mode so that
+	 * modules like KVM can run VMs.
+	 *
+	 * Without further ado...
+	 */
+	enter_hyp();
+}

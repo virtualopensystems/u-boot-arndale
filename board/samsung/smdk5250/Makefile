@@ -25,8 +25,10 @@ include $(TOPDIR)/config.mk
 LIB	= $(obj)lib$(BOARD).o
 
 SOBJS	:= lowlevel_init.o
+SOBJS	+= monitor.o
 
 COBJS	:= clock_init.o
+COBJS	+= timer_init.o non_secure.o
 COBJS	+= dmc_common.o dmc_init_ddr3.o
 COBJS	+= tzpc_init.o
 COBJS	+= smdk5250_spl.o
@@ -36,6 +38,7 @@ COBJS	+= smdk5250.o
 endif
 
 ifdef CONFIG_SPL_BUILD
+SOBJS	+= smp.o
 COBJS	+= mmc_boot.o
 endif
 
